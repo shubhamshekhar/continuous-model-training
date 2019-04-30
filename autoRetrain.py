@@ -885,9 +885,9 @@ def main(_):
     #data = r.json()
     #sort_json(data)
     
-    FA = ['https://www.googleapis.com/download/storage/v1/b/secure-delivery-system.appspot.com/o/Swiggy%2FDE%2F5555%2Ftshirt%2FE5555.jpg?generation=1555914118370209&alt=media','https://www.googleapis.com/download/storage/v1/b/secure-delivery-system.appspot.com/o/Swiggy%2FDE%2F5555%2Ftshirt%2FE5555.jpg?generation=1555914118370209&alt=media','https://www.googleapis.com/download/storage/v1/b/secure-delivery-system.appspot.com/o/Swiggy%2FDE%2F5555%2Ftshirt%2FE5555.jpg?generation=1555914118370209&alt=media']
-    FR = ['https://www.googleapis.com/download/storage/v1/b/secure-delivery-system.appspot.com/o/Swiggy%2FDE%2F5555%2Ftshirt%2FE5555.jpg?generation=1555914118370209&alt=media','https://www.googleapis.com/download/storage/v1/b/secure-delivery-system.appspot.com/o/Swiggy%2FDE%2F5555%2Ftshirt%2FE5555.jpg?generation=1555914118370209&alt=media','https://www.googleapis.com/download/storage/v1/b/secure-delivery-system.appspot.com/o/Swiggy%2FDE%2F5555%2Ftshirt%2FE5555.jpg?generation=1555914118370209&alt=media']
-    OK = ['https://www.googleapis.com/download/storage/v1/b/secure-delivery-system.appspot.com/o/Swiggy%2FDE%2F5555%2Ftshirt%2FE5555.jpg?generation=1555914118370209&alt=media','https://www.googleapis.com/download/storage/v1/b/secure-delivery-system.appspot.com/o/Swiggy%2FDE%2F5555%2Ftshirt%2FE5555.jpg?generation=1555914118370209&alt=media','https://www.googleapis.com/download/storage/v1/b/secure-delivery-system.appspot.com/o/Swiggy%2FDE%2F5555%2Ftshirt%2FE5555.jpg?generation=1555914118370209&alt=media']
+    FA = ['']
+    FR = ['']
+    OK = ['']
 
     
     
