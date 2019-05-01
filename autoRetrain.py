@@ -22,6 +22,8 @@ from tensorflow.python.util import compat
 
 import requests
 import urllib as ulib
+import difflib
+import json
 
 #from firebase import firebase
 
@@ -878,18 +880,42 @@ def add_jpeg_decoding(input_width, input_height, input_depth, input_mean,
   return jpeg_data, mul_image
 
 
+def sort_json(data):
+    FA = []
+    FR = []
+    OK = []
+
+    for item in data:
+        if difflib.SequenceMatcher(None,item["TYPE"],"FA"):
+            FA.append(item["URL"].encode("ascii","replace"))
+        elif difflib.SequenceMatcher(None,item["TYPE"],"FR"):
+            FR.append(item["URL"].encode("ascii","replace"))
+        elif difflib.SequenceMatcher(None,item["TYPE"],"OK"):
+            OK.append(item["URL"].encode("ascii","replace"))  
+            
+    print("FA: ")
+    print(FA)
+
 def main(_):
 
-    #URL = 'http://maps.googleapis.com/maps/api/directions/json'
-    #r = requests.get(url = URL, params = params)
-    #data = r.json()
-    #sort_json(data)
+    URL = 'http://demo5578417.mockable.io/'
+    params = None
+    r = requests.get(url = URL, params = params)
+    data = r.json()
+    print(data)
     
-    FA = ['']
-    FR = ['']
-    OK = ['']
+    
+    FA = []
+    FR = []
+    OK = []
 
-    
+    for item in data:
+        if difflib.SequenceMatcher(None,item["TYPE"],"FR"):
+            FR.append(item["URL"].encode("ascii","replace"))
+        if difflib.SequenceMatcher(None,item["TYPE"],"FA"):
+            FA.append(item["URL"].encode("ascii","replace"))
+        if difflib.SequenceMatcher(None,item["TYPE"],"OK"):
+            OK.append(item["URL"].encode("ascii","replace"))  
     
     count_fa = len(FA)
     count_fr_ok = len(FR) + len(OK)
@@ -910,19 +936,22 @@ def main(_):
         #input_string = input("Enter array of epochs separated by space")
         #no_of_epoch = input_string.split()
         
-    if (count_fa>line_count*new_data*0.01):
+    if (count_fa>line_count*new_data/100):
         with open('swiggy_downloaded_urls.txt') as f:
             line_count = 0
             for line in f:
                 line_count += 1
                 
-            if (count_fr_ok>line_count*new_data*0.01):
+            if (count_fr_ok>line_count*new_data/100):
                 with open('swiggy_downloaded_urls.txt') as fp:
                     lines = fp.readlines()
                     
                 main_list = np.setdiff1d(FR,lines)
                 for image_url in main_list:
-                    ulib.urlretrieve(image_url, os.path.join(os.getcwd(), "swiggy_image"+str(datetime.now())+".jpg")) # download and save image
+                    try:
+                        ulib.urlretrieve(image_url, os.path.join(os.getcwd(), "swiggy_image"+str(datetime.now())+".jpg")) # download and save image
+                    except IOError as error:
+                        print(error)
                     
                 with open('swiggy_downloaded_urls.txt','a+') as filehandle:
                     for image_url in main_list:
@@ -930,7 +959,10 @@ def main(_):
                     
                 main_list = np.setdiff1d(OK,lines)
                 for image_url in main_list:
-                    ulib.urlretrieve(image_url, os.path.join(os.getcwd(), "swiggy_image"+str(datetime.now())+".jpg")) # download and save image
+                    try:
+                        ulib.urlretrieve(image_url, os.path.join(os.getcwd(), "swiggy_image"+str(datetime.now())+".jpg")) # download and save image
+                    except IOError as error:
+                        print(error)
                     
                 with open('swiggy_downloaded_urls.txt','a+') as filehandle:
                     for image_url in main_list:
@@ -938,7 +970,10 @@ def main(_):
                         
                 main_list = np.setdiff1d(FA,lines)
                 for image_url in main_list:
-                    ulib.urlretrieve(image_url, os.path.join(os.getcwd(), "non_swiggy_image"+str(datetime.now())+".jpg")) # download and save image
+                    try:
+                        ulib.urlretrieve(image_url, os.path.join(os.getcwd(), "non_swiggy_image"+str(datetime.now())+".jpg")) # download and save image
+                    except IOError as error:
+                        print(error)
                     
                 with open('non_swiggy_downloaded_urls.txt','a+') as filehandle:
                     for image_url in main_list:
