@@ -23,7 +23,7 @@ from tensorflow.python.util import compat
 import requests
 import urllib as ulib
 import difflib
-import json
+
 
 #from firebase import firebase
 
@@ -741,7 +741,7 @@ def add_evaluation_step(result_tensor, ground_truth_tensor):
 def save_graph_to_file(sess, graph, graph_file_name):
   output_graph_def = graph_util.convert_variables_to_constants(
       sess, graph.as_graph_def(), [FLAGS.final_tensor_name])
-  with gfile.FastGFile(graph_file_name, 'wb') as f:
+  with gfile.FastGFile(graph_file_name + str(datetime.now()), 'wb') as f:
     f.write(output_graph_def.SerializeToString())
   return
 
@@ -902,8 +902,6 @@ def main(_):
     params = None
     r = requests.get(url = URL, params = params)
     data = r.json()
-    print(data)
-    
     
     FA = []
     FR = []
@@ -916,6 +914,11 @@ def main(_):
             FA.append(item["URL"].encode("ascii","replace"))
         if difflib.SequenceMatcher(None,item["TYPE"],"OK"):
             OK.append(item["URL"].encode("ascii","replace"))  
+            
+    print("\nFA: "+ str(FA))
+    print("\nFR: "+ str(FR))
+    print("\nOK: "+ str(OK))
+    
     
     count_fa = len(FA)
     count_fr_ok = len(FR) + len(OK)
@@ -927,10 +930,10 @@ def main(_):
             line_count += 1
             
             
-    new_data = input("Enter percentage:")
+    new_data = input("\nEnter percentage:")
             
             
-    retry_counter = input("How many times to itterate? ")
+    retry_counter = input("\nHow many times to itterate? ")
         
         #for i in range(0,new_data):
         #input_string = input("Enter array of epochs separated by space")
@@ -1345,8 +1348,5 @@ if __name__ == '__main__':
       for more information on Mobilenet.\
       """)
     
-    
-  
-  
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
